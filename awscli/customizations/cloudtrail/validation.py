@@ -244,7 +244,7 @@ class DigestProvider(object):
         digests = []
         marker = self._create_digest_key(start_date, prefix)
         client = self._client_provider.get_client(bucket)
-        paginator = client.get_paginator('list_objects')
+        paginator = client.get_paginator('list_objects_v2')
         page_iterator = paginator.paginate(Bucket=bucket, Marker=marker)
         key_filter = page_iterator.search('Contents[*].Key')
         # Create a target start end end date

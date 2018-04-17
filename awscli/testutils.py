@@ -815,7 +815,7 @@ class BaseS3CLICommand(unittest.TestCase):
 
     def remove_all_objects(self, bucket_name):
         client = self.create_client_for_bucket(bucket_name)
-        paginator = client.get_paginator('list_objects')
+        paginator = client.get_paginator('list_objects_v2')
         pages = paginator.paginate(Bucket=bucket_name)
         key_names = []
         for page in pages:
