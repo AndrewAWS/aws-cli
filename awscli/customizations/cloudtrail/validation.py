@@ -234,7 +234,7 @@ class DigestProvider(object):
     def load_digest_keys_in_range(self, bucket, prefix, start_date, end_date):
         """Returns a list of digest keys in the date range.
 
-        This method uses a list_objects API call and provides a Marker
+        This method uses a list_objects API call and provides a StartAfter
         parameter that is calculated based on the start_date provided.
         Amazon S3 then returns all keys in the bucket that start after
         the given key (non-inclusive). We then iterate over the keys
@@ -242,10 +242,10 @@ class DigestProvider(object):
         the given end_date.
         """
         digests = []
-        marker = self._create_digest_key(start_date, prefix)
+        startafter = self._create_digest_key(start_date, prefix)
         client = self._client_provider.get_client(bucket)
         paginator = client.get_paginator('list_objects_v2')
-        page_iterator = paginator.paginate(Bucket=bucket, Marker=marker)
+        page_iterator = paginator.paginate(Bucket=bucket, StartAfter=startafter)
         key_filter = page_iterator.search('Contents[*].Key')
         # Create a target start end end date
         target_start_date = format_date(normalize_date(start_date))

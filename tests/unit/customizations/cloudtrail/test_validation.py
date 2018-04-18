@@ -395,12 +395,12 @@ class TestDigestProvider(BaseAWSCommandParamsTest):
         provider = self._get_mock_provider(s3_client)
         provider.load_digest_keys_in_range(
             '1', 'prefix', START_DATE, END_DATE)
-        marker = ('prefix/AWSLogs/{account}/CloudTrail-Digest/us-east-1/'
+        startafter = ('prefix/AWSLogs/{account}/CloudTrail-Digest/us-east-1/'
                   '2014/08/09/{account}_CloudTrail-Digest_us-east-1_foo_'
                   'us-east-1_20140809T235900Z.json.gz')
         mock_paginate.assert_called_once_with(
             Bucket='1',
-            Marker=marker.format(account=TEST_ACCOUNT_ID))
+            StartAfter=startafter.format(account=TEST_ACCOUNT_ID))
 
     def test_ensures_digest_has_proper_metadata(self):
         out = six.BytesIO()
